@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useGLTF } from '@react-three/drei/native';
 import { useFrame } from '@react-three/fiber/native';
 import { DeviceMotion } from 'expo-sensors';
 
-export default function Modelo3D(props) {
+export default function Modelo3D() {
   const { scene } = useGLTF(require('../assets/modelo.glb'));
+  const meshRef = useRef();
   
-  // Usa React.useRef en lugar de solo useRef para evitar el error de "o is not a function"
-  const meshRef = React.useRef();
-  const movement = React.useRef({ beta: 0, gamma: 0 });
+  // Guardamos la rotación actual del teléfono
+  const sensorRotation = useRef({ beta: 0, gamma: 0 });
 
-  React.useEffect(() => {
-    DeviceMotion.setUpdateInterval(16); 
+  useEffect(() => {
+    // Escuchamos el sensor cada 16ms (aprox 60 cuadros por segundo)
     const subscription = DeviceMotion.addListener((data) => {
       if (data.rotation) {
-        movement.current.beta = data.rotation.beta;
-        movement.current.gamma = data.rotation.gamma;
+        sensorRotation.current.beta = data.rotation.beta;
+        sensorRotation.current.gamma = data.rotation.gamma;
       }
     });
     return () => subscription.remove();
@@ -23,8 +23,14 @@ export default function Modelo3D(props) {
 
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = movement.current.beta;
-      meshRef.current.rotation.y = movement.current.gamma;
+      // PUNTO CERO: Teléfono a 90 grados (vertical)
+      const objetivoX = sensorRotation.current.beta - Math.PI / 2;
+      const objetivoY = sensorRotation.current.gamma;
+
+      // MOVIMIENTO SUAVE (Lerp): 
+      // El modelo se mueve un 10% (0.1) hacia el objetivo en cada frame.
+      meshRef.current.rotation.x += (objetivoX - meshRef.current.rotation.x) * 0.1;
+      meshRef.current.rotation.y += (objetivoY - meshRef.current.rotation.y) * 0.1;
     }
   });
 
@@ -32,8 +38,8 @@ export default function Modelo3D(props) {
     <primitive 
       ref={meshRef} 
       object={scene} 
-      scale={props.escala || 0.5} 
-      position={props.posicion || [0, -1, 1]}
+      scale={0.09} // Tamaño ajustado para que no estorbe
+      position={[0, -1.5, 0]} // Un poco más abajo del panel
     />
   );
 }
