@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     fetchSensorData();
-    const interval = setInterval(fetchSensorData, 10000);
+    const interval = setInterval(fetchSensorData, 5000);
     return () => clearInterval(interval);
   }, [fetchSensorData]);
 
@@ -38,22 +38,8 @@ export default function App() {
     <View style={styles.container}>
       {/* PANEL HUD: Ajustado para ser más alargado y arriba */}
       <View style={styles.arPanel}>
-        <Text style={styles.panelTitle}>SISTEMA IoT UDB</Text>
-        
-        <View style={styles.row}>
-          <Text style={styles.dataLabel}>TEMPERATURA:</Text>
-          <Text style={styles.dataValue}>{sensorData.temperatura}°C</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.dataLabel}>HUMEDAD:</Text>
-          <Text style={styles.dataValue}>{sensorData.humedad}%</Text>
-        </View>
-
-        <Text style={styles.locationText}>{sensorData.ubicacion}</Text>
-        
         <TouchableOpacity style={styles.button} onPress={fetchSensorData}>
-          <Text style={styles.btnText}>ACTUALIZAR</Text>
+          <Text style={styles.btnText}>Actualizar datos de sensor</Text>
         </TouchableOpacity>
       </View>
 
@@ -79,7 +65,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: 'rgba(0, 255, 204, 0.4)',
+    borderColor: 'rgba(0, 217, 255, 0.4)',
     zIndex: 10,
     width: '85%',
   },
@@ -88,6 +74,6 @@ const styles = StyleSheet.create({
   dataLabel: { color: '#aaa', fontSize: 13 },
   dataValue: { color: '#fff', fontSize: 14, fontWeight: 'bold' },
   locationText: { color: '#fff', fontSize: 11, textAlign: 'center', marginTop: 5, opacity: 0.6, fontStyle: 'italic' },
-  button: { backgroundColor: '#3498db', padding: 10, borderRadius: 8, marginTop: 10 },
+  button: { backgroundColor: '#34c8db', padding: 10, borderRadius: 8 },
   btnText: { color: 'white', textAlign: 'center', fontWeight: 'bold', fontSize: 12 }
 }); 
