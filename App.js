@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     fetchSensorData();
-    const interval = setInterval(fetchSensorData, 5000);
+    const interval = setInterval(fetchSensorData, 10000);
     return () => clearInterval(interval);
   }, [fetchSensorData]);
 
@@ -61,7 +61,7 @@ export default function App() {
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} />
         <Suspense fallback={null}>
-          <Modelo3D />
+          <Modelo3D sensorData={sensorData} />
         </Suspense>
       </Canvas>
     </View>
