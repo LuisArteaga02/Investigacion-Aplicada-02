@@ -22,8 +22,7 @@
     "react-native": "0.81.5",
     "react-native-paper": "4.9.2",
     "react-native-reanimated": "~4.1.1",
-    "three": "^0.166.1",
-    "troika-three-text": "^0.52.4"
+    "three": "^0.166.1"
   },
   "private": true
 }

@@ -57,9 +57,9 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <ambientLight intensity={1.5} />
-        <pointLight position={[10, 10, 10]} />
+      <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+        <ambientLight intensity={1} />
+        <directionalLight position={[0, -1.5, 0]} color="white" />
         <Suspense fallback={null}>
           <Modelo3D sensorData={sensorData} />
         </Suspense>
