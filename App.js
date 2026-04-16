@@ -12,16 +12,16 @@ export default function App() {
 
   const fetchSensorData = useCallback(async () => {
     try {
-      const response = await fetch('https://69ddd128410caa3d47ba03eb.mockapi.io/sensor/1');
+      const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=13.8422&longitude=-89.0969&current=temperature_2m,relative_humidity_2m&timezone=auto');
       const json = await response.json();
       
       // LOG DETALLADO: Muestra la info exacta de la API en la terminal
       console.log(">>> [API RESPONSE]:", json);
 
       setSensorData({
-        temperatura: json.temperatura,
-        humedad: json.humedad,
-        ubicacion: json.ubicacion
+       temperatura: json.current.temperature_2m.toString(),
+        humedad: json.current.relative_humidity_2m.toString(),
+        ubicacion: "San Jose Guayabal Cuscatlan"
       });
     } catch (e) { 
       console.log(">>> [API ERROR]:", e); 
